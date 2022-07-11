@@ -134,7 +134,7 @@ main {
         color: hsl(var(--color-primary-hue), var(--color-primary-sat), 85%);
         border: none;
         border-radius: 0.3rem;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
     }
 
     .icon-button {
@@ -142,6 +142,7 @@ main {
         border: none;
         width: 2rem;
         height: 2rem;
+        color: var(--color-text);
     }
 }
 
