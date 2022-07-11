@@ -58,8 +58,6 @@ const groups = scheduleStore.groups.map((label, index) => {
         label,
     };
 });
-
-console.log(scheduleStore.getShift("D", dayjs().toDate()));
 </script>
 
 <template>

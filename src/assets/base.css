@@ -22,7 +22,7 @@
     --vt-c-text-dark-1: var(--vt-c-white);
     --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
 
-    --color-primary: rgb(15, 95, 19);
+    --color-primary: hsl(123, 73%, 22%);
 }
 
 /* semantic color variables for this project */
@@ -39,6 +39,16 @@
     --color-text-invert: var(--vt-c-text-dark-2);
 
     --section-gap: 160px;
+
+    --color-primary-hue: 123;
+    --color-primary-sat: 73%;
+    --color-primary-brightness: 22%;
+
+    --color-primary: hsl(
+        var(--color-primary-hue),
+        var(--color-primary-sat),
+        var(--color-primary-brightness)
+    );
 }
 
 @media (prefers-color-scheme: dark) {
@@ -54,7 +64,15 @@
         --color-text: var(--vt-c-text-dark-2);
         --color-text-invert: var(--vt-c-text-light-1);
 
-        --color-primary: rgb(51, 194, 58);
+        --color-primary-hue: 123;
+        --color-primary-sat: 86%;
+        --color-primary-brightness: 34%;
+
+        --color-primary: hsl(
+            var(--color-primary-hue),
+            var(--color-primary-sat),
+            var(--color-primary-brightness)
+        );
     }
 }
 

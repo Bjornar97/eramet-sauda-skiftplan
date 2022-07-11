@@ -19,6 +19,7 @@ export default defineConfig({
                 short_name: "Skiftplan",
                 description: "Skiftplan for Eramet Sauda",
                 theme_color: "#0f5f13",
+                display: "standalone",
                 icons: [
                     {
                         src: "android-chrome-192x192.png",
