@@ -1,0 +1,69 @@
+{
+  "startDate": "2022-01-03",
+  "startGroup": "A",
+  "groups": ["A", "B", "C", "D", "E"],
+  "shiftTypes": [
+    {
+      "name": "FM",
+      "colorHue": "145",
+      "lightnessText": "20%",
+      "darkLightnessText": "80%"
+    },
+    {
+      "name": "EM",
+      "colorHue": "50",
+      "lightnessText": "20%",
+      "darkLightnessText": "80%"
+    },
+    {
+      "name": "N",
+      "colorHue": "276",
+      "lightnessText": "80%",
+      "darkLightnessText": "80%"
+    },
+    {
+      "name": "Fri",
+      "colorHue": "340",
+      "lightnessText": "20%",
+      "darkLightnessText": "80%"
+    }
+  ],
+  "shiftOffsetPerGroup": 7,
+  "schedule": [
+    "FM",
+    "FM",
+    "EM",
+    "Fri",
+    "FM",
+    "FM",
+    "FM",
+    "EM",
+    "Fri",
+    "FM",
+    "FM",
+    "Fri",
+    "Fri",
+    "Fri",
+    "N",
+    "N",
+    "Fri",
+    "EM",
+    "N",
+    "N",
+    "N",
+    "Fri",
+    "EM",
+    "N",
+    "N",
+    "Fri",
+    "Fri",
+    "Fri",
+    "Fri",
+    "Fri",
+    "Fri",
+    "Fri",
+    "Fri",
+    "Fri",
+    "Fri"
+  ]
+}
