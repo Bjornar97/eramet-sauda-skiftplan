@@ -70,7 +70,7 @@ const install = () => {
                 ></CloseIcon>
             </button>
         </div>
-        <h1 class="title">Velg skift</h1>
+        <label class="title">Velg skift</label>
         <nav class="group-select-nav">
             <GroupSelect
                 class="group-select"
@@ -147,7 +147,10 @@ main {
 }
 
 .title {
+    display: block;
+    font-size: 1.2rem;
     margin-top: 1rem;
+    margin-bottom: -1rem;
 }
 
 .group-select {
@@ -189,15 +192,22 @@ footer {
             font-size: 1.5rem;
             text-decoration: none;
             color: var(--color-text);
+            background-color: var(--color-background-soft);
+            padding: 0.5rem 1rem;
+            display: grid;
+            place-content: center;
+            border-radius: 0.5rem;
 
             &.has-accent-icon {
-                margin-right: 1rem;
+                padding-right: 1.5rem;
+                padding-top: 0.7rem;
             }
 
             .accent-icon {
                 position: absolute;
-                z-index: -1;
-                right: -0.7em;
+                z-index: 0;
+                right: 0.4em;
+                top: 0.5rem;
                 width: 1rem;
             }
         }

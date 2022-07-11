@@ -61,7 +61,7 @@ const groups = scheduleStore.groups.map((label, index) => {
 </script>
 
 <template>
-    <h2>Neste 14 dager</h2>
+    <h1 class="title">Neste 14 dager</h1>
     <form @submit.prevent class="from-date-form">
         <label class="from-date-form__label" for="from-date">Fra dato</label>
         <input
@@ -90,6 +90,11 @@ const groups = scheduleStore.groups.map((label, index) => {
 main {
     display: grid;
     margin-inline: 2rem;
+}
+
+.title {
+    margin-bottom: -0.3rem;
+    font-size: 1.6rem;
 }
 
 .shifts-list {
