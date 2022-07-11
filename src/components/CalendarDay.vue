@@ -94,6 +94,7 @@ const textLightnessDark = computed(() =>
         max-width: 2rem;
 
         &.is-today {
+            color: var(--vt-c-text-dark-1);
             background-color: var(--color-primary);
             border-radius: 50%;
         }

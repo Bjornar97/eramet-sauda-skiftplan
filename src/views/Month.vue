@@ -3,7 +3,7 @@ import { useScheduleStore } from "@/stores/schedule";
 import type { VCalendarDay } from "@/types/VCalendar";
 import { computed, ref } from "@vue/reactivity";
 import dayjs from "dayjs";
-import { Calendar } from "v-calendar";
+import { Calendar as _calendar } from "v-calendar";
 import CalendarDay from "../components/CalendarDay.vue";
 
 const scheduleStore = useScheduleStore();
@@ -15,6 +15,8 @@ const isDark = ref(matchMedia.matches);
 matchMedia.addEventListener("change", (e) => {
     isDark.value = e.matches;
 });
+
+const Calendar = _calendar as {};
 </script>
 
 <template>
