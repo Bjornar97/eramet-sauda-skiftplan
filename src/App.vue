@@ -175,6 +175,7 @@ footer {
     background-color: var(--color-background-mute);
     padding: 0.5rem;
     z-index: 99;
+    max-height: 5rem;
 
     nav {
         display: flex;
