@@ -181,6 +181,7 @@ footer {
         width: max-content;
         align-content: space-between;
         gap: 1.5rem;
+        max-height: 4rem;
 
         .nav-icon {
             width: 2rem;
