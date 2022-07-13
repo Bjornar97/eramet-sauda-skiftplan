@@ -1,0 +1,2 @@
+# Rewrites all urls to index.html since we have a SPA
+/*    /index.html   200
