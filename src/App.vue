@@ -91,7 +91,7 @@ const share = () => {
             </button>
         </div>
         <div class="title-bar">
-            <label class="title">Velg skift</label>
+            <h2 class="title">Velg skift</h2>
             <button
                 v-if="canShare"
                 @click="share"
@@ -99,11 +99,14 @@ const share = () => {
                 class="icon-button"
                 aria-label="Del nettsiden"
             >
-                <ShareIcon width="2rem" height="2rem"></ShareIcon>
+                <div class="icon">
+                    <ShareIcon width="2rem" height="2rem"></ShareIcon>
+                </div>
+                <span>Del</span>
             </button>
         </div>
 
-        <nav class="group-select-nav">
+        <nav aria-label="Velg skift" class="group-select-nav">
             <GroupSelect
                 class="group-select"
                 v-model="selectedGroup"
@@ -180,15 +183,20 @@ main {
 }
 
 .title-bar {
-    display: flex;
-    align-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 4rem;
+    align-items: flex-end;
+    justify-content: space-between;
     margin-inline: 0.5rem;
     margin-inline-end: 1rem;
+    padding-bottom: 0.5rem;
 
     .icon-button {
-        padding-inline: 1rem;
-        padding-block: 0.5rem;
+        display: grid;
+        align-items: center;
+        grid-template-columns: max-content 2rem;
+        font-weight: bold;
+        font-size: 1.1rem;
     }
 }
 
@@ -200,7 +208,7 @@ main {
 }
 
 .group-select {
-    margin-block: 1rem;
+    margin-bottom: 1rem;
     justify-self: center;
     padding: 0;
     align-items: center;
