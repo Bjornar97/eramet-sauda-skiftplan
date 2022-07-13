@@ -4,6 +4,7 @@ import {
     CalendarMinus as CalendarMinusIcon,
     CalendarMonth as CalendarMonthIcon,
     Close as CloseIcon,
+    Share as ShareIcon,
 } from "mdue";
 import { useScheduleStore } from "./stores/schedule";
 import { computed } from "@vue/reactivity";
@@ -55,14 +56,33 @@ const install = () => {
         defferedPrompt = null;
     });
 };
+
+const shareObject: ShareData = {
+    url: `https://${location.host}`,
+    text: "Skiftplan for Eramet Sauda",
+};
+
+const canShare = ref(false);
+
+if (typeof navigator.canShare !== "undefined") {
+    canShare.value = navigator.canShare(shareObject);
+}
+
+const share = () => {
+    navigator.share(shareObject).catch((e) => {
+        console.log(e);
+    });
+};
 </script>
 
 <template>
     <header>
         <div class="install-card" v-if="showInstallCard">
             <p>Installer som app</p>
-            <button class="button" @click="install">Installer</button>
-            <button class="icon-button">
+            <button type="button" class="button" @click="install">
+                Installer
+            </button>
+            <button type="button" class="icon-button">
                 <CloseIcon
                     width="2rem"
                     height="2rem"
@@ -70,7 +90,19 @@ const install = () => {
                 ></CloseIcon>
             </button>
         </div>
-        <label class="title">Velg skift</label>
+        <div class="title-bar">
+            <label class="title">Velg skift</label>
+            <button
+                v-if="canShare"
+                @click="share"
+                type="button"
+                class="icon-button"
+                aria-label="Del nettsiden"
+            >
+                <ShareIcon width="2rem" height="2rem"></ShareIcon>
+            </button>
+        </div>
+
         <nav class="group-select-nav">
             <GroupSelect
                 class="group-select"
@@ -136,13 +168,27 @@ main {
         border-radius: 0.3rem;
         font-size: 1.2rem;
     }
+}
+
+.icon-button {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    width: 2rem;
+    height: 2rem;
+    color: var(--color-text);
+}
+
+.title-bar {
+    display: flex;
+    align-content: space-between;
+    align-items: center;
+    margin-inline: 0.5rem;
+    margin-inline-end: 1rem;
 
     .icon-button {
-        background-color: transparent;
-        border: none;
-        width: 2rem;
-        height: 2rem;
-        color: var(--color-text);
+        padding-inline: 1rem;
+        padding-block: 0.5rem;
     }
 }
 
@@ -150,7 +196,7 @@ main {
     display: block;
     font-size: 1.2rem;
     margin-top: 1rem;
-    margin-bottom: -1rem;
+    flex-grow: 1;
 }
 
 .group-select {
