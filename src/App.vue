@@ -52,7 +52,7 @@ window.addEventListener("beforeinstallprompt", (event) => {
 const install = () => {
     defferedPrompt?.prompt();
 
-    defferedPrompt?.userChoise.then((choice: any) => {
+    defferedPrompt?.userChoise.then(() => {
         defferedPrompt = null;
     });
 };
@@ -227,7 +227,6 @@ footer {
     right: 0;
     left: 0;
     background-color: var(--color-background-mute);
-    padding: 0.5rem;
     z-index: 99;
     max-height: 5rem;
 
@@ -252,7 +251,7 @@ footer {
             padding: 0.5rem 1rem;
             display: grid;
             place-content: center;
-            border-radius: 0.5rem;
+            position: relative;
 
             &.has-accent-icon {
                 padding-right: 1.5rem;
@@ -269,8 +268,10 @@ footer {
         }
 
         .router-link-active {
+            background-color: hsla(var(--color-primary-hue), 86%, 34%, 0.12);
+
             .nav-icon {
-                color: var(--color-primary);
+                color: hsl(var(--color-primary-hue), 86%, 34%);
             }
 
             &.nav-link {
