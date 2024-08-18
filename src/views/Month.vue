@@ -1,10 +1,17 @@
 <script setup lang="ts">
 import { useScheduleStore } from "@/stores/schedule";
-import type { VCalendarDay } from "@/types/VCalendar";
-import { computed, ref } from "@vue/reactivity";
+import { computed, ref, watch } from "vue";
+import FullCalendar from "@fullcalendar/vue3";
+import dayGridMonthPlugin from "@fullcalendar/daygrid";
+import type {
+    CalendarOptions,
+    EventSourceFuncArg,
+    EventInput,
+} from "@fullcalendar/core";
 import dayjs from "dayjs";
-import { Calendar as _calendar } from "v-calendar";
-import CalendarDay from "../components/CalendarDay.vue";
+import debounce from "debounce";
+import nbLocale from "@fullcalendar/core/locales/nb";
+import { onMounted } from "vue";
 
 const scheduleStore = useScheduleStore();
 
@@ -16,88 +23,217 @@ matchMedia.addEventListener("change", (e) => {
     isDark.value = e.matches;
 });
 
-const Calendar = _calendar as {};
+const fullCalendar = ref<InstanceType<typeof FullCalendar> | null>(null);
+
+const windowSize = ref(window.innerWidth);
+
+window.addEventListener(
+    "resize",
+    debounce(() => {
+        windowSize.value = window.innerWidth;
+    }, 100)
+);
+
+watch(
+    () => scheduleStore.selectedGroup,
+    () => {
+        if (!fullCalendar.value) {
+            return;
+        }
+
+        fullCalendar.value.getApi().refetchEvents();
+    }
+);
+
+const calendarOptions = computed((): CalendarOptions => {
+    return {
+        locale: nbLocale,
+        plugins: [dayGridMonthPlugin],
+        initialView: "dayGridMonth",
+        height: "70dvh",
+        dayMaxEvents: 1,
+        weekNumbers: true,
+
+        customButtons: {
+            prevYear: {
+                text: "<<",
+                click: function () {
+                    fullCalendar.value?.getApi().incrementDate({ years: -1 }); // Move back by one year
+                },
+            },
+            nextYear: {
+                text: ">>",
+                click: function () {
+                    fullCalendar.value?.getApi().incrementDate({ years: 1 }); // Move forward by one year
+                },
+            },
+        },
+
+        // Add custom buttons to the header
+        headerToolbar: {
+            start: "title today",
+            end: "prevYear,prev,next,nextYear",
+        },
+
+        buttonText: {
+            today: "Gå til i dag",
+        },
+
+        // Remove dots from day numbers in the calendar grid
+        dayCellContent: (arg) => {
+            return arg.dayNumberText.replace(".", "");
+        },
+
+        dayHeaderContent: (arg) => {
+            return arg.text.replace(".", "");
+        },
+
+        events: async (info: EventSourceFuncArg) => {
+            let currentDay = dayjs(info.startStr);
+            const endDay = dayjs(info.endStr);
+
+            const events: EventInput[] = [];
+
+            while (currentDay.isBefore(endDay)) {
+                const shift = scheduleStore.getShift(
+                    scheduleStore.selectedGroup,
+                    currentDay.toDate()
+                );
+
+                if (shift === "Fri") {
+                    currentDay = currentDay.add(1, "day");
+                    continue;
+                }
+
+                const hue = scheduleStore.getShiftHue(shift);
+                const lightness = isDark ? "30%" : "45%";
+                const color = `hsl(${hue}, 90%, ${lightness})`;
+
+                events.push({
+                    date: currentDay.toDate(),
+                    allDay: true,
+                    title: shift,
+                    color,
+                    overlap: false,
+                });
+
+                currentDay = currentDay.add(1, "day");
+            }
+
+            return events;
+        },
+    };
+});
+
+// Variables to track touch positions
+let touchStartX = 0;
+let touchEndX = 0;
+
+const handleSwipe = () => {
+    if (!fullCalendar.value) {
+        return;
+    }
+
+    if (touchEndX < touchStartX - 70) {
+        // Swipe left threshold
+        fullCalendar.value.getApi().next(); // Go to the next month
+    }
+    if (touchEndX > touchStartX + 70) {
+        // Swipe right threshold
+        fullCalendar.value.getApi().prev(); // Go to the previous month
+    }
+};
+
+onMounted(() => {
+    if (!fullCalendar.value) {
+        return;
+    }
+
+    const element = document.querySelector(".calendar-wrapper") as HTMLElement;
+
+    if (!element) {
+        return;
+    }
+
+    element.addEventListener("touchstart", (event: TouchEvent) => {
+        touchStartX = event.changedTouches[0].screenX;
+    });
+
+    element.addEventListener("touchend", (event: TouchEvent) => {
+        touchEndX = event.changedTouches[0].screenX;
+        handleSwipe();
+    });
+});
 </script>
 
 <template>
-    <div>
-        <Calendar
-            :is-dark="isDark"
-            class="calendar"
-            :masks="{
-                weekdays: 'WWW',
-            }"
-            is-expandable
-        >
-            <template v-slot:day-content="{ day }: { day: VCalendarDay }">
-                <CalendarDay :day="day"></CalendarDay>
-            </template>
-        </Calendar>
+    <div class="calendar-wrapper">
+        <FullCalendar
+            ref="fullCalendar"
+            :options="calendarOptions"
+        ></FullCalendar>
     </div>
 </template>
 
 <style lang="scss">
-@import "v-calendar/dist/style.css";
+.calendar-wrapper {
+    --fc-border-color: #eee;
+    --fc-today-bg-color: hsla(50, 100%, 58%, 0.5);
 
-.calendar.vc-container {
-    --day-border: 1px solid #b8c2cc;
-    --day-border-highlight: 1px solid #b8c2cc;
-    --day-width: 1rem;
-    --day-height: clamp(5rem, 9vw, 7.5rem);
-    --weekday-bg: #f8fafc;
-    --weekday-border: 1px solid #eaeaea;
-    border-radius: 0;
-    width: 100%;
-
-    --calendar-bg-color: white;
-    --weekend-bg-color: white;
-
-    &.vc-is-dark {
-        --calendar-bg-color: var(--color-background-soft);
-        --weekend-bg-color: var(--color-background-muted);
-
-        --day-border: 1px solid #50555a;
-        --day-border-highlight: 1px solid #50555a;
-
-        --weekday-bg: #3b3b3b;
-        --weekday-border: 1px solid #808080;
+    .fc-header-toolbar {
+        margin-inline: 0.5rem;
     }
 
-    & .vc-header {
-        background-color: var(--calendar-bg-color);
-        padding: 10px 0;
+    .fc-toolbar-title {
+        font-size: 1.2rem;
+        text-transform: capitalize;
     }
-    & .vc-weeks {
+
+    .fc-today-button {
+        margin: 0 !important;
+    }
+
+    .fc-daygrid-week-number {
+        bottom: 0;
+        top: unset;
+        font-size: 0.8rem;
         padding: 0;
+        padding-left: 0.1rem;
     }
-    & .vc-weekday {
-        background-color: var(--weekday-bg);
-        border-bottom: var(--weekday-border);
-        border-top: var(--weekday-border);
-        padding: 5px 0;
+
+    .fc-daygrid-day-frame {
+        min-height: 5.2rem;
+        height: 100%;
     }
-    & .vc-day {
-        padding: 0 5px 3px 5px;
-        text-align: left;
-        height: var(--day-height);
-        min-width: var(--day-width);
-        background-color: var(--calendar-bg-color);
-        &.weekday-1,
-        &.weekday-7 {
-            background-color: var(--weekend-bg-color);
-        }
-        &:not(.on-bottom) {
-            border-bottom: var(--day-border);
-            &.weekday-1 {
-                border-bottom: var(--day-border-highlight);
-            }
-        }
-        &:not(.on-right) {
-            border-right: var(--day-border);
-        }
+
+    .fc-day-other .fc-daygrid-day-events {
+        opacity: 0.6;
     }
-    & .vc-day-dots {
-        margin-bottom: 5px;
+
+    .fc-event-title-container {
+        text-align: center;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .fc-daygrid-week-number {
+        font-size: 1rem;
+        margin: 0.3rem;
+    }
+
+    .fc-event-title-container {
+        text-align: center;
+        padding-block: 0.4rem;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .calendar-wrapper {
+        --fc-border-color: #666;
+        --fc-today-bg-color: hsla(50, 100%, 58%, 0.25);
+        --fc-neutral-bg-color: var(--color-background-soft);
+        --fc-neutral-text-color: var(--color-text);
+        --fc-page-bg-color: var(--color-background-soft);
     }
 }
 </style>

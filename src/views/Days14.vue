@@ -2,8 +2,7 @@
 import { useScheduleStore } from "@/stores/schedule";
 import { computed } from "@vue/reactivity";
 import dayjs from "dayjs";
-import { nextTick, ref } from "vue";
-import GroupSelect from "../components/GroupSelect.vue";
+import { ref } from "vue";
 import DateShift from "../components/DateShift.vue";
 import calendar from "dayjs/plugin/calendar";
 
@@ -50,13 +49,6 @@ const shifts = computed(() => {
     }
 
     return shiftsArray;
-});
-
-const groups = scheduleStore.groups.map((label, index) => {
-    return {
-        id: label,
-        label,
-    };
 });
 </script>
 

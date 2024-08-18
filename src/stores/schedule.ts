@@ -1,5 +1,4 @@
 import { diffInDays } from "@/helpers/dates";
-import dayjs from "dayjs";
 import { defineStore } from "pinia";
 import schedule from "./schedule.json";
 

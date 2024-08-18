@@ -8,7 +8,6 @@ import nb from "dayjs/locale/nb";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import updateLocale from "dayjs/plugin/updateLocale";
 import calendar from "dayjs/plugin/calendar";
-import SetupCalendar from "v-calendar";
 
 dayjs.locale(nb);
 dayjs.extend(localizedFormat);
@@ -28,7 +27,6 @@ dayjs.updateLocale("nb", {
 
 const app = createApp(App);
 
-app.use(SetupCalendar, {});
 app.use(createPinia());
 app.use(router);
 
