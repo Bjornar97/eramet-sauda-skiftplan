@@ -134,11 +134,11 @@ const handleSwipe = () => {
         return;
     }
 
-    if (touchEndX < touchStartX - 100) {
+    if (touchEndX < touchStartX - 70) {
         // Swipe left threshold
         fullCalendar.value.getApi().next(); // Go to the next month
     }
-    if (touchEndX > touchStartX + 100) {
+    if (touchEndX > touchStartX + 70) {
         // Swipe right threshold
         fullCalendar.value.getApi().prev(); // Go to the previous month
     }
