@@ -2,8 +2,7 @@ import { diffInDays } from "@/helpers/dates";
 import { defineStore } from "pinia";
 import schedule from "./schedule.json";
 
-export const useScheduleStore = defineStore({
-    id: "schedule",
+export const useScheduleStore = defineStore("schedule", {
     state: () => ({
         schedule,
         selectedGroup: localStorage.getItem("selectedGroup") ?? "B",

@@ -14,27 +14,25 @@
     "dayjs": "^1.11.12",
     "debounce": "^2.1.0",
     "mdue": "^0.1.4",
-    "pinia": "^2.2.2",
+    "pinia": "^3.0.0",
     "sass": "^1.77.8",
-    "undefined": "^0.1.0",
     "vue": "^3.4.38",
-    "vue-router": "^4.4.3",
-    "vue3-material-design-icons-ts": "github:lacrioque/vue3-material-design-icons"
+    "vue-router": "^4.4.3"
   },
   "devDependencies": {
     "@types/jsdom": "^21.1.7",
     "@types/node": "^20.15.0",
+    "@types/vue": "^2.0.0",
     "@vitejs/plugin-vue": "^5.1.2",
     "@vue/test-utils": "^2.4.6",
-    "@vue/tsconfig": "^0.5.1",
-    "cypress": "^13.13.3",
+    "@vue/tsconfig": "^0.7.0",
     "jsdom": "^24.1.1",
     "npm-run-all": "^4.1.5",
     "start-server-and-test": "^2.0.5",
     "typescript": "~5.5.4",
-    "vite": "^5.4.6",
-    "vite-plugin-pwa": "^0.20.1",
-    "vitest": "^2.0.5",
+    "vite": "^6.1.0",
+    "vite-plugin-pwa": "^0.21.1",
+    "vitest": "^3.0.5",
     "vue-tsc": "^2.0.29"
   }
 }
