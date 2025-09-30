@@ -59,7 +59,7 @@ const install = () => {
 
 const shareObject: ShareData = {
     url: `https://${location.host}`,
-    text: "Skiftplan for Eramet Sauda",
+    text: "Skiftplan for smelteverk Sauda",
 };
 
 const canShare = ref(false);

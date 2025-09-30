@@ -12,30 +12,27 @@ export default defineConfig({
             includeAssets: [
                 "favicon.ico",
                 "apple-touch-icon.png",
-                "android-chrome-maskable-192x192.png",
+                "web-app-manifest-192x192.png",
             ],
             manifest: {
-                name: "Skifplan Eramet Sauda",
+                name: "Skiftplan Smelteverk Sauda",
                 short_name: "Skiftplan",
-                description: "Skiftplan for Eramet Sauda",
+                description: "Skiftplan for smelteverk Sauda",
                 theme_color: "#0f5f13",
+                background_color: "#F4EBDA",
                 display: "standalone",
                 icons: [
                     {
-                        src: "android-chrome-192x192.png",
+                        src: "web-app-manifest-192x192.png",
                         sizes: "192x192",
                         type: "image/png",
+                        purpose: "maskable",
                     },
                     {
-                        src: "android-chrome-512x512.png",
+                        src: "web-app-manifest-512x512.png",
                         sizes: "512x512",
                         type: "image/png",
-                    },
-                    {
-                        src: "android-chrome-maskable-512x512.png",
-                        sizes: "512x512",
-                        type: "image/png",
-                        purpose: "any maskable",
+                        purpose: "maskable",
                     },
                 ],
             },
